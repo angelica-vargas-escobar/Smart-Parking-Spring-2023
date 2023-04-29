@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Windows.Forms;
+using System.IO;
 
 namespace TeamVaxxers
 {
@@ -10,13 +11,30 @@ namespace TeamVaxxers
             InitializeComponent();
         }
 
-      
-
 
         private void loginBtn_Click_1(object sender, EventArgs e)
         {
+            /*
+            string username, password;
+            try
+            {
+                string filePath = Path.Combine(Application.StartupPath, "login.txt");
+                //string filePath = "C:\Users\varga\OneDrive\Desktop\SP\SmartParking\login.txt";
+                using (StreamReader sr = new StreamReader(filePath))
+                //using (StreamReader sr = new StreamReader("login.txt"))
+                {
+                    username = sr.ReadLine();
+                    password = sr.ReadLine();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error reading credentials file: " + ex.Message);
+                return;
+            }
+            */
             User user = new User();
-            if (user.UserName == usernameBox.Text && user.Password == passwordBox.Text)
+            if (user.username == usernameBox.Text && user.password == passwordBox.Text)
             {
                 this.Hide();
                 ParkingLot engine = new ParkingLot();
@@ -38,6 +56,11 @@ namespace TeamVaxxers
         }
 
         private void usernameBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Login_Load(object sender, EventArgs e)
         {
 
         }
