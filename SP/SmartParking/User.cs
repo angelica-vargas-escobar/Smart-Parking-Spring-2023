@@ -1,8 +1,9 @@
-﻿namespace TeamVaxxers
+namespace TeamVaxxers
 {
     internal class User
     {
-        public string UserName = "";
-        public string Password = "";
+        //public string filePath = "login.txt";
+        public string username = "test";
+        public string password = "test";
     }
 }
