@@ -97,6 +97,43 @@ namespace TeamVaxxers
     }
 
     // receives data for 4 sensors
+    /*    public class Sensors
+        {
+            public int Total { set; get; }  // total sensor
+            // record total
+            public Sensor[] data { get; set; }  // get info for every sensor
+
+            // initialize function that gets data from four sensors, counts total
+            public Sensors(int total)
+            {
+
+                data = new Sensor[total];
+                data[0] = new Sensor();
+                data[1] = new Sensor();
+                data[2] = new Sensor();
+                data[3] = new Sensor();
+
+            }
+        }
+
+        // locates the x,y coordinates of sensors*/
+    /*    public class Sensor
+        {
+            public int Total { get; set; }
+            //public Point[] Point { get ; set; }
+            public Point[] location { get; set; }
+
+                public class Point
+                {
+                    public int X { get; set; }
+                    public int Y { get; set; }
+                }
+                public Point(double x, double y)
+                {
+
+                }*/
+
+    // receives data for 4 sensors
     public class Sensors
     {
         public int Total { set; get; }  // total sensor
@@ -116,36 +153,28 @@ namespace TeamVaxxers
         }
     }
 
-    /* public class Sensor
-    {
-        public double S1 { get; set; }
-        public double S2 { get; set; }
-        public double S3 { get; set; }
-        public double S4 { get; set; }
-        public Point[] position { get; set; } // receives position x and y
-    }
-*/
 
     // locates the x,y coordinates of sensors
     public class Sensor
-    {
-        public Point location { get; set; }
-        public Sensor()
         {
-            location = new Point(0, 0);
-        }
-        public void setCoordinates(double x, double y)
-        {
-            location.x = x;
-            location.y = y;
-        }
+            public Point location { get; set; }
+            public Sensor()
+            {
+                location = new Point(0, 0);
+            }
+            public void setCoordinates(double x, double y)
+            {
+                location.x = x;
+                location.y = y;
+            }
 
-    }
+        }
 
     // function that creates a slot and draws slots
     public class Slot
     {
         int slotNum;
+        Graphics G;  // initializing for C# graphics
         public Point[] coordinates = new Point[4]; // four corners in one slot
         Rectangle rectangle; // initialize rectangle that i going to be drawn
         public bool isOccupied { get; set; }
@@ -169,19 +198,19 @@ namespace TeamVaxxers
             Draw(slotNum, G);
 
         }
-            public void ColorR(Graphics G)
-            {
-                fill = fillR;
-                G.FillRectangle(fill, rectangle);
-                G.DrawRectangle(blackPen, rectangle);
-            }
-            public void ColorG(Graphics G)
-            {
-                fill = fillG;
-                G.FillRectangle(fill, rectangle);
-                    G.DrawRectangle(blackPen, rectangle);
-                }
-        
+/*        public void ColorR(Graphics G)
+        {
+            fill = fillR;
+            G.FillRectangle(fill, rectangle);
+            G.DrawRectangle(blackPen, rectangle);
+        }
+        public void ColorG(Graphics G)
+        {
+            fill = fillG;
+            G.FillRectangle(fill, rectangle);
+            G.DrawRectangle(blackPen, rectangle);
+        }*/
+
         // draws for 6 parking slots
         public void Draw(int index, Graphics G)
         {
@@ -217,30 +246,28 @@ namespace TeamVaxxers
     {
         public int Total { get; set; }
         //public Point[] Point { get ; set; }
-        public Position[] Position { get; set; }
+        public Position[] position { get; set; }
         public Slot[] parkingSlots { get; set; }
 
-            // Graphics g = this.CreateGraphics();
-            Graphics G;  // initializing for C# graphics
+/*        // Graphics g = this.CreateGraphics();
+        Graphics G;  // initializing for C# graphics
 
-            // creates as many amount of slots needed as in total
-            public ParkingMap(int total, Graphics g)
+        // creates as many amount of slots needed as in total
+        public ParkingMap(int total, Graphics g)
+        {
+            parkingSlots = new Slot[total];
+            for (int i = 0; i < total; i++)
             {
-                parkingSlots = new Slot[total];
-                for (int i = 0; i < total; i++)
-                {
-                    parkingSlots[i] = new Slot(i, g);
-                }
+                parkingSlots[i] = new Slot(i, g);
             }
- 
-    }
-    public class Position
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-    }
+        }*/
 
-
+        public class Position
+        {
+            public int X { get; set; }
+            public int Y { get; set; }
+        }
+    }
 
         public class Response
     {
