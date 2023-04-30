@@ -16,7 +16,7 @@ namespace TeamVaxxers
         public long Time { get; set; } // grabs 
 
         // function updates the beacon with new data
-        public void update(Beacon data) 
+        public void update(Beacon data)
         {
             D1 = data.D1;  // updates distances from beacon to four sensors
             D2 = data.D2;
@@ -40,16 +40,16 @@ namespace TeamVaxxers
             double y3 = sensor.data[2].location.y;
             double y4 = sensor.data[3].location.y;
 
-        /*
-            double A = sensor.data[1].location.x * 2 - sensor.data[0].location.x * 2;
-            double B = sensor.data[1].location.y * 2 - sensor.data[0].location.y * 2;
-            double C = Math.Pow(sensor.data[0].D1, 2) - Math.Pow(sensor.data[1].D2, 2) - Math.Pow(sensor.data[0].location.x, 2) + Math.Pow(sensor.data[1].location.x, 2) - Math.Pow(sensor.data[0].location.y, 2) + Math.Pow(sensor.data[1].location.y, 2);
-            double D = sensor.data[2].location.x * 2 - sensor.data[1].location.x * 2;
-            double E = sensor.data[2].location.y * 2 - sensor.data[1].location.y * 2;
-            double F = Math.Pow(sensor.data[1].D2, 2) - Math.Pow(sensor.data[2].D3, 2) - Math.Pow(sensor.data[1].location.x, 2) + Math.Pow(sensor.data[2].location.x, 2) - Math.Pow(sensor.data[1].location.y, 2) + Math.Pow(sensor.data[2].location.y, 2);
-            point.x = (C * E - F * B) / (E * A - B * D);
-            point.y = (C * D - A * F) / (B * D - A * E);
-        */
+            /*
+                double A = sensor.data[1].location.x * 2 - sensor.data[0].location.x * 2;
+                double B = sensor.data[1].location.y * 2 - sensor.data[0].location.y * 2;
+                double C = Math.Pow(sensor.data[0].D1, 2) - Math.Pow(sensor.data[1].D2, 2) - Math.Pow(sensor.data[0].location.x, 2) + Math.Pow(sensor.data[1].location.x, 2) - Math.Pow(sensor.data[0].location.y, 2) + Math.Pow(sensor.data[1].location.y, 2);
+                double D = sensor.data[2].location.x * 2 - sensor.data[1].location.x * 2;
+                double E = sensor.data[2].location.y * 2 - sensor.data[1].location.y * 2;
+                double F = Math.Pow(sensor.data[1].D2, 2) - Math.Pow(sensor.data[2].D3, 2) - Math.Pow(sensor.data[1].location.x, 2) + Math.Pow(sensor.data[2].location.x, 2) - Math.Pow(sensor.data[1].location.y, 2) + Math.Pow(sensor.data[2].location.y, 2);
+                point.x = (C * E - F * B) / (E * A - B * D);
+                point.y = (C * D - A * F) / (B * D - A * E);
+            */
             // calculation to find the location of the beacon
             double A = 2 * x2 - 2 * x1;
             double B = 2 * y2 - 2 * y1;
@@ -62,9 +62,8 @@ namespace TeamVaxxers
 
             Console.WriteLine($"(x,y) = {point.x},{point.y}");
 
-            return point;
+            return point;  // returns the point where the beacon is at
         }
-        // public int slotId { get; set; }  // ID of the slot the car is parked in
     }
 
     // 
@@ -72,7 +71,6 @@ namespace TeamVaxxers
     {
         public int Total { get; set; } // counts the total # of beacons
         public Beacon[] data { get; set; } // array of beacon data
-        
         /*
         public Beacons(int total)
         {
@@ -97,7 +95,7 @@ namespace TeamVaxxers
             y = Y;
         }
     }
-    
+
     // receives data for 4 sensors
     public class Sensors
     {
@@ -144,12 +142,13 @@ namespace TeamVaxxers
 
     }
 
-    // function that creates a slot
+    // function that creates a slot and draws slots
     public class Slot
     {
         int slotNum;
         public Point[] coordinates = new Point[4]; // four corners in one slot
         Rectangle rectangle; // initialize rectangle that i going to be drawn
+        public bool isOccupied { get; set; }
 
         //  DrawTool drawTool = new DrawTool();
         SolidBrush fillRectangle = new SolidBrush(Color.Black);
@@ -157,74 +156,91 @@ namespace TeamVaxxers
         //G.DrawString(drawString, drawFont, drawBrush, x, y, drawFormat);
 
         Pen blackPen = new Pen(Color.Black, 0);
-        SolidBrush fillG = new SolidBrush(Color.Green); // signals availability
+        SolidBrush fillG = new SolidBrush(Color.GreenYellow); // signals availability
         SolidBrush fillR = new SolidBrush(Color.Red); // signals occupancy
+        SolidBrush fill;
+        // bool isOccupied = false; // boolean to track occupancy
 
         public Slot(int i, Graphics G)
         {
             slotNum = i + 1;
             int b = i < 6 ? 0 : 2;
-            coordinates[0] = new Point(1.5 * i, b);
-            coordinates[1] = new Point((i + 1) * 1.5, b);
-            coordinates[2] = new Point(1.5 * i, b + 2);
-            coordinates[3] = new Point((i + 1) * 1.5, b + 2);
 
             Draw(slotNum, G);
 
         }
-        public void ColorR(Graphics G)
-        {
-            G.FillRectangle(fillR, rectangle);
-            G.DrawRectangle(blackPen, rectangle);
-        }
-        public void ColorG(Graphics G)
-        {
-            G.FillRectangle(fillG, rectangle);
-            G.DrawRectangle(blackPen, rectangle);
-        }
-
+            public void ColorR(Graphics G)
+            {
+                fill = fillR;
+                G.FillRectangle(fill, rectangle);
+                G.DrawRectangle(blackPen, rectangle);
+            }
+            public void ColorG(Graphics G)
+            {
+                fill = fillG;
+                G.FillRectangle(fill, rectangle);
+                    G.DrawRectangle(blackPen, rectangle);
+                }
+        
         // draws for 6 parking slots
         public void Draw(int index, Graphics G)
         {
-            int j, i = index;
+            int j;
+            int i = index;
             if (i < 6)
             {
                 j = 100;
             }
             else
             {
-                j = 300;
+                j = 200;
                 i = index - 6;
             }
             rectangle = new Rectangle(100 * i, j, 100, 200);
-            G.FillRectangle(fillRectangle, rectangle);
+
+            if (isOccupied)
+            {
+                fill = fillR;
+            }
+            else
+            {
+                fill = fillG;
+            }
+
+            G.FillRectangle(fill, rectangle);
             G.DrawRectangle(blackPen, rectangle);
         }
     }
 
-
-    // function that draws parking map
+    // function that receives data for drawing parking map
     public class ParkingMap
     {
+        public int Total { get; set; }
+        //public Point[] Point { get ; set; }
+        public Position[] Position { get; set; }
         public Slot[] parkingSlots { get; set; }
 
-        public int Total { get; set; }
-        public int slotID { get; set; }
-        public int free { get; set; }
+            // Graphics g = this.CreateGraphics();
+            Graphics G;  // initializing for C# graphics
 
-        // Graphics g = this.CreateGraphics();
-        Graphics G;  // initializing for C# graphics
-
-        // creates as many amount of slots needed as in total
-        public ParkingMap(int total, Graphics g)
-        {
-            parkingSlots = new Slot[total];
-            for (int i = 0; i < total; i++)
+            // creates as many amount of slots needed as in total
+            public ParkingMap(int total, Graphics g)
             {
-                parkingSlots[i] = new Slot(i, g);
+                parkingSlots = new Slot[total];
+                for (int i = 0; i < total; i++)
+                {
+                    parkingSlots[i] = new Slot(i, g);
+                }
             }
-        }
+ 
     }
+    public class Position
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+    }
+
+
 
         public class Response
     {
