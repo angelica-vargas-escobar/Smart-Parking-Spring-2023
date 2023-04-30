@@ -34,6 +34,8 @@ namespace TeamVaxxers
         private void loadData(object sender, EventArgs e)
         {
             getBeaconDataAsync();
+            getParkingMapDataAsync();
+            // getSensorDataAsync();
             // DrawSlots();
         }
         private void DrawSlots(object sender, EventArgs e)
@@ -161,6 +163,9 @@ namespace TeamVaxxers
                 .Subscribe(x =>
                 {
                     Console.WriteLine($"beacon id: { x.Object.Id} [{ x.Object.D1}]");
+                    Console.WriteLine($"beacon id: { x.Object.Id} [{ x.Object.D2}]");
+                    Console.WriteLine($"beacon id: { x.Object.Id} [{ x.Object.D3}]");
+                    Console.WriteLine($"beacon id: { x.Object.Id} [{ x.Object.D4}]");
                 });
 
         }
@@ -169,12 +174,14 @@ namespace TeamVaxxers
         {
             var parkingMapData = await client
                .Child("ParkingMap/")//Prospect list
-               .OnceSingleAsync<ParkingMap>();
+               .OnceSingleAsync<ParkingMap>(); 
+            // displayParkingMapData(parkingMapData);
 
-            onParkingMapChanged();
+            parkingMapChanged();
 
         }
-        private void onParkingMapChanged() // Waits for data base to start with variable
+
+        private void parkingMapChanged() // Waits for data base to start with variable
         {
             var child = client.Child("ParkingMap/data");
             var observable = child.AsObservable<ParkingMap>();
@@ -182,15 +189,42 @@ namespace TeamVaxxers
                 {
                     Console.WriteLine($"Parking Map data received");
 
-                    Console.WriteLine($"    X: {x.Object.Position[0].X}, Y: { x.Object.Position[0].Y}");
-                    Console.WriteLine($"    X: {x.Object.Position[1].X}, Y: { x.Object.Position[1].Y}");
-                    Console.WriteLine($"    X: {x.Object.Position[2].X}, Y: { x.Object.Position[2].Y}");
-                    Console.WriteLine($"    X: {x.Object.Position[3].X}, Y: { x.Object.Position[3].Y}");
+                    Console.WriteLine($"    X: {x.Object.position[0].X}, Y: { x.Object.position[0].Y}");
+                    Console.WriteLine($"    X: {x.Object.position[1].X}, Y: { x.Object.position[1].Y}");
+                    Console.WriteLine($"    X: {x.Object.position[2].X}, Y: { x.Object.position[2].Y}");
+                    Console.WriteLine($"    X: {x.Object.position[3].X}, Y: { x.Object.position[3].Y}");
 
                     Console.WriteLine();
                 });
 
         }
+
+/*        private async void getSensorDataAsync()
+        {
+            var SensorsSet = await client
+               .Child("Sensors/")//Prospect list
+               .OnceSingleAsync<Sensor>();
+            //displaySensorData(SensorSet);
+
+            updateSensor();
+
+        }
+        private void updateSensor() // Waits for data base to start with variable
+        {
+            var child = client.Child("Sensor/data");
+            var observable = child.AsObservable<Sensor>();
+            var subscription = observable.Subscribe(x =>
+                {
+                    Console.WriteLine($"Sensor data received");
+
+                    Console.WriteLine($"    X: {x.Object.data[0].X}, Y: { x.Object.data[0].Y}");
+                    Console.WriteLine($"    X: {x.Object.data[1].X}, Y: { x.Object.data[1].Y}");
+                    Console.WriteLine($"    X: {x.Object.data[2].X}, Y: { x.Object.data[2].Y}");
+                    Console.WriteLine($"    X: {x.Object.data[3].X}, Y: { x.Object.data[3].Y}");
+                    //Console.WriteLine($"beacon id: { x.Object.Id} [{ x.Object.D1}]");
+                });
+        }*/
+
 
         public void DrawStringFloatFormat(String drawString, float x, float y)
         {
@@ -215,31 +249,17 @@ namespace TeamVaxxers
 
         }
 
-        /*        private void button2_Click(object sender, EventArgs e)
-                {
-                    InitializeComponent();
-                    getBeaconDataAsync();
-                    getParkingMapDataAsync();
-                    onParkingMapChanged();
-                    // getSensorAsync();
-                }*/
 
-        /*        private void button4_Click(object sender, EventArgs e)
+        /*        private void displayParkingMapData(Position Position) // display beacons
                 {
-                    InitializeComponent();
-                    getBeaconDataAsync();
-                    getParkingMapDataAsync();
-                }
-
-                private void button3_Click(object sender, EventArgs e)
-                {
+                    foreach (var Position in Position.Position)
+                    {
+                        Console.WriteLine($" Sensor id: { Position.X} [{ Position.Y}]");
+                    }
 
                 }
+        */
 
-                private void button2_Click_1(object sender, EventArgs e)
-                {
 
-                }*/
     }
 }
-
