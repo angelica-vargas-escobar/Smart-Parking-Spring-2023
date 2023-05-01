@@ -50,6 +50,7 @@ namespace TeamVaxxers
                 point.x = (C * E - F * B) / (E * A - B * D);
                 point.y = (C * D - A * F) / (B * D - A * E);
             */
+
             // calculation to find the location of the beacon
             double A = 2 * x2 - 2 * x1;
             double B = 2 * y2 - 2 * y1;
@@ -71,8 +72,9 @@ namespace TeamVaxxers
     {
         public int Total { get; set; } // counts the total # of beacons
         public Beacon[] data { get; set; } // array of beacon data
+     
         /*
-        public Beacons(int total)
+        public Beacons(int total)  // counts total amount of beacons
         {
             data = new Beacon[total];
             data[0] = new Beacon();
@@ -81,6 +83,7 @@ namespace TeamVaxxers
             data[3] = new Beacon();
         }
         */
+      
     }
 
     // receives two data points
@@ -140,7 +143,7 @@ namespace TeamVaxxers
         // record total
         public Sensor[] data { get; set; }  // get info for every sensor
 
-        // initialize function that gets data from four sensors, counts total
+        // counts total
         public Sensors(int total)
         {
 
@@ -167,6 +170,22 @@ namespace TeamVaxxers
                 location.x = x;
                 location.y = y;
             }
+
+        /*
+            public double s1 { get; set; } // grabs sensor info
+            public double S2 { get; set; }
+            public double S3 { get; set; }
+            public double S4 { get; set; }
+
+            // function updates the beacon with new data
+            public void update(Sensors data)
+            {
+                S1 = data.S1;  // updates distances from beacon to four sensors
+                S2 = data.S2;
+                S3 = data.S3;
+                S4 = data.S4;
+            }
+        */
 
         }
 
@@ -247,7 +266,7 @@ namespace TeamVaxxers
         public int Total { get; set; }
         //public Point[] Point { get ; set; }
         public Position[] position { get; set; }
-        public Slot[] parkingSlots { get; set; }
+        // public Slot[] parkingSlots { get; set; }
 
 /*        // Graphics g = this.CreateGraphics();
         Graphics G;  // initializing for C# graphics
